@@ -1,16 +1,15 @@
 <html>
-<head>HEAD</head>
+<head>PiFermentor Control Page</head>
 <body>
-
-<p>
-	PiFermentor Control Page
-</p>
-
+<br>
+<br>
 <form action="" method="post">
-    <label for="temp">Temperature:</label>
-    <input type="number" id="temp" name="temp" value="%TEMP%"><br>
+    <label for="temp">Target Temp:</label>
+    <input type="text" id="temp" name="temp" value="%TAR_TEMP%" size="3">
     <input type="submit" value="Apply">
 </form>
+<p>Current temp: %CUR_TEMP%C</p>
+<p>Fridge is turned %ON_OFF_FRIDGE%</p>
 
 </body>
 </html>
