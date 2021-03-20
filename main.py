@@ -1,24 +1,22 @@
-import requests
+from local_switch import LocalSwitch
 from time import sleep
-from w1thermsensor import W1ThermSensor
+from temp_sensor import Sensor
 
-def turn_on_fridge():
-    url_on = "http://localhost:5001/send?protocol=nexa_switch&on=1&id=2&unit=0"
-    for x in range(5):
-        requests.get(url = url_on)
-        time.sleep(0.5)
-        
-def turn_off_fridge():
-    url_off = "http://localhost:5001/send?protocol=nexa_switch&off=1&id=2&unit=0"
-    for x in range(5):
-        requests.get(url = url_off)
-        sleep(0.5)
+
+fridge = LocalSwitch("nexa_switch", id=2, unit=0, port=5001)
+sensor = Sensor(1)
 
 while(True):
-    sensor = W1ThermSensor()
-    temp = sensor.get_temperature()
-    print(temp)
-    sleep(1)
+    temp = sensor.temp()
+    print("Temperature is :"+str(temp)+" C")
+    if(temp > 16):
+        fridge.turn_on()
+    else:
+        fridge.turn_off()
+    
+    sleep(0.5)
+    
+
 
 
         
