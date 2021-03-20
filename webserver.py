@@ -1,20 +1,17 @@
-from http.server import BaseHTTPRequestHandler, HTTPServer
-import time
 import io
 import urllib
-from temp_sensor import Sensor
-from local_switch import LocalSwitch
+from http.server import BaseHTTPRequestHandler
 
-
-class ControlServer(BaseHTTPRequestHandler):
+class WebServer(BaseHTTPRequestHandler):
     sensor = None
     fridge = None
+    controller = None
     temp = 0
     def get_response_body(self):
         print(self.sensor.temp())
         with io.open("webpage.html","r", encoding="utf-8") as f:
             text = f.read()
-            text = text.replace("%TAR_TEMP%", str(self.temp))
+            text = text.replace("%TAR_TEMP%", str(self.controller.target_temp))
             text = text.replace("%CUR_TEMP%", str(self.sensor.temp()))
             text = text.replace("%ON_OFF_FRIDGE%", self.fridge.on_off_str())
         return bytes(text, "utf-8")
@@ -23,7 +20,11 @@ class ControlServer(BaseHTTPRequestHandler):
         length = int(self.headers['Content-Length'])
         post_data = urllib.parse.parse_qs(self.rfile.read(length).decode('utf-8'))
         if("temp" in post_data):
-            self.temp = int(post_data["temp"][0])
+            try:
+                t = int(post_data["temp"][0])
+                self.controller.target_temp = t
+            except:
+                print("Invalid input")
         self.do_GET()
         
     def do_GET(self):
