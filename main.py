@@ -18,7 +18,7 @@ fridge = LocalSwitch("nexa_switch", id=2, unit=0, port=switch_port)
 sensor = Sensor(sensor_delay)
 
 #Start fridge controller
-controller = Controller(sensor, fridge, 18)
+controller = Controller(sensor, fridge, 15)
 
 #Create and start logger
 logger = Logger(sensor, controller, fridge, log_file)

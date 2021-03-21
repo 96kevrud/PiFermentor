@@ -7,22 +7,33 @@ class Controller:
         self.fridge = fridge
         self.sensor = sensor
         self.target_temp = target_temp
+        self.temp_delta = 0
+        self.calc_avg_limit = 10
+        self.history = []
         self.thread.start()
             
     def _start_fridge_control(self):
         while(True):
             temp = self.sensor.temp()
-            preToggle = self.fridge.isON
-            print("Temperature is :"+str(temp)+" C")
-            
-            if(temp > self.target_temp):
+            print("Temperature is :"+ "%.2f" % temp+" C")
+            self.update_temp_delta(temp)
+            wasON = self.fridge.isON
+            if(temp > self.target_temp+self.temp_delta):
                 self.fridge.turn_on()
             else:
                 self.fridge.turn_off()
-            postToggle = self.fridge.isON
+                #If fridge has been toggled, compressor needs some rest time
+                if(wasON):
+                    print("Turned off Fridge, Sleeping for 5min")
+                    sleep(5)
             
-            #If fridge has been toggled, compressor needs some time
-            if(preToggle != postToggle):
-                print("Toggled Fridge, Sleeping for 3min")
-                sleep(1)  
+    def update_temp_delta(self, temp):
+        self.history.append(temp)
+        if(len(self.history) >= self.calc_avg_limit):
+            avg = sum(self.history)/len(self.history)
+            print("Average temp is: " + "%.3f" % avg + " C")
+            self.temp_delta = self.target_temp - avg
+            self.history = []
+            
+                
     

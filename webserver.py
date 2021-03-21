@@ -11,8 +11,8 @@ class WebServer(BaseHTTPRequestHandler):
         print(self.sensor.temp())
         with io.open("webpage.html","r", encoding="utf-8") as f:
             text = f.read()
-            text = text.replace("%TAR_TEMP%", str(self.controller.target_temp))
-            text = text.replace("%CUR_TEMP%", str(self.sensor.temp()))
+            text = text.replace("%TAR_TEMP%", "%.2f" % self.controller.target_temp)
+            text = text.replace("%CUR_TEMP%", "%.2f" % self.sensor.temp())
             text = text.replace("%ON_OFF_FRIDGE%", self.fridge.on_off_str())
         return bytes(text, "utf-8")
     

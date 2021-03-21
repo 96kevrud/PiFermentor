@@ -1,1 +1,3 @@
 log.txt
+log.txt.old
+__pycache__/

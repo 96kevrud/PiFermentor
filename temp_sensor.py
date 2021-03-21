@@ -5,9 +5,9 @@ from time import sleep
 class Sensor:
     def __init__(self, read_interval):
         self.thread = threading.Thread(target=self._read_temp_thread)
-        self.temperature = 0
         self.read_interval = read_interval
         self.sensor = W1ThermSensor()
+        self.temperature = self.sensor.get_temperature()
         self.thread.start()
         
     def temp(self):
