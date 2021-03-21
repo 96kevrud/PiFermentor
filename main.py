@@ -4,12 +4,14 @@ from temp_sensor import Sensor
 from webserver import WebServer
 from controller import Controller
 from http.server import HTTPServer
+from logger import Logger
 
 #Parameters
 server_host = "0.0.0.0"
 server_port = 8765
 switch_port = 5001
 sensor_delay = 0.5
+log_file = "log.txt"
 
 # Start sensor and fridge switch
 fridge = LocalSwitch("nexa_switch", id=2, unit=0, port=switch_port)
@@ -17,6 +19,9 @@ sensor = Sensor(sensor_delay)
 
 #Start fridge controller
 controller = Controller(sensor, fridge, 18)
+
+#Create and start logger
+logger = Logger(sensor, controller, fridge, log_file)
 
 # Start webserver at 192.168.1.32:8765
 #  or if hostfile configed fermentor:8765
