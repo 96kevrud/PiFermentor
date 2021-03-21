@@ -8,7 +8,7 @@ class Controller:
         self.sensor = sensor
         self.target_temp = target_temp
         self.temp_delta = 0
-        self.calc_avg_limit = 10
+        self.calc_avg_limit = 100
         self.history = []
         self.thread.start()
             
@@ -25,7 +25,7 @@ class Controller:
                 #If fridge has been toggled, compressor needs some rest time
                 if(wasON):
                     print("Turned off Fridge, Sleeping for 5min")
-                    sleep(5)
+                    sleep(5*60)
             
     def update_temp_delta(self, temp):
         self.history.append(temp)

@@ -30,6 +30,6 @@ class Logger:
             row += str(datetime.now().strftime("%H:%M:%S")) + "\n"
             with io.open(self.log_file_name,"a", encoding="utf-8") as f:
                 f.write(row)
-            time.sleep(10)
+            time.sleep(60*10)
             
             
