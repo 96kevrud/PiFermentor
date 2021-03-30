@@ -1,5 +1,6 @@
 import threading
 from time import sleep
+from collections import deque
 
 class Controller:
     def __init__(self, sensor, fridge, target_temp):
@@ -8,8 +9,7 @@ class Controller:
         self.sensor = sensor
         self.target_temp = target_temp
         self.temp_delta = 0
-        self.calc_avg_limit = 100
-        self.history = []
+        self.window = deque(maxlen=10000)
         self.thread.start()
             
     def _start_fridge_control(self):
@@ -28,12 +28,9 @@ class Controller:
                     sleep(5*60)
             
     def update_temp_delta(self, temp):
-        self.history.append(temp)
-        if(len(self.history) >= self.calc_avg_limit):
-            avg = sum(self.history)/len(self.history)
-            print("Average temp is: " + "%.3f" % avg + " C")
-            self.temp_delta = self.target_temp - avg
-            self.history = []
+        self.window.append(temp)
+        avg = sum(self.window)/len(self.window)
+        self.temp_delta = self.target_temp - avg
             
                 
     
