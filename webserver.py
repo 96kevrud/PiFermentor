@@ -22,7 +22,7 @@ class WebServer(BaseHTTPRequestHandler):
         if("temp" in post_data):
             try:
                 t = int(post_data["temp"][0])
-                self.controller.target_temp = t
+                self.controller.set_target_temp(t)
             except:
                 print("Invalid input")
         self.do_GET()
