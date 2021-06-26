@@ -2,6 +2,7 @@ import io
 import threading
 import time
 from datetime import datetime
+import spreadsheet_connector
 
 class Logger:
     def __init__(self, sensor, controller, fridge, log_file_name):
@@ -28,16 +29,28 @@ class Logger:
                 self.controller.pilight_error_log_flag = False
             if(isFridgeOn != self.fridge.isON):
                 isFridgeOn = self.fridge.isON
-                row = "%.1f" % self.controller.target_temp + "\t"
-                row += "%.3f" % self.controller.temp_delta + "\t"
-                row += "%.2f" % self.sensor.temp() + "\t"
-                row += str(self.fridge.on_off_str()) + "\t"
-                row += str(datetime.now().strftime("%H:%M:%S")) + "\n"
+
+                temp = self.sensor.temp()
+                target = self.controller.target_temp
+                delta = self.controller.temp_delta
+                dt_now = datetime.now()
+                on_off = self.fridge.on_off_str()
+
+                sheet_row = [[dt_now, temp, target, delta, on_off]]
+                spreadsheet_connector.append_row(sheet_row)
+
+                row = "%.1f" % target + "\t"
+                row += "%.3f" % delta + "\t"
+                row += "%.2f" % temp + "\t"
+                row += str(on_off) + "\t"
+                row += str(dt_now.strftime("%H:%M:%S")) + "\n"
                 with io.open(self.log_file_name,"a", encoding="utf-8") as f:
                     f.write(row)
+
+
+
             time.sleep(1)
 
     def log_pilight_error(self):
         with io.open(self.log_file_name, "a", encoding="utf-8") as f:
             f.write("Pilight error. Restarting pilight\n")
-
