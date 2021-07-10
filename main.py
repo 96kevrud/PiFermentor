@@ -5,6 +5,7 @@ from webserver import WebServer
 from controller import Controller
 from http.server import HTTPServer
 from temp_sensor_simulator import SimulatorSensor
+from spreadsheet_logger import SpreadsheetLogger
 from logger import Logger
 
 #Parameters
@@ -29,6 +30,10 @@ controller = Controller(sensor, fridge, 15, simulation_mode)
 
 #Create and start logger
 #logger = Logger(sensor, controller, fridge, log_file)
+
+#Log data into spreadsheet
+#Requires credfile generated from google cloud
+ss_logger = SpreadsheetLogger(sensor, controller, fridge)
 
 # Start webserver at 192.168.1.32:8765
 #  or if hostfile configed fermentor:8765

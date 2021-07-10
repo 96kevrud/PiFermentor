@@ -6,7 +6,7 @@ class SimulatorSensor:
     def __init__(self, read_interval):
         self.thread = threading.Thread(target=self._read_temp_thread)
         self.read_interval = read_interval
-        self.temperature = 10
+        self.temperature = 15
         random.seed(496294)
         self.thread.start()
 

@@ -60,7 +60,11 @@ def filter_24h(alldata):
 
     return alldata
 
-def _append_row_24h(sheet, worksheet, data_row):
+def append_row_24h(data_row, sheet=None, worksheet=None):
+    if sheet == None and worksheet == None:
+        sheet, worksheet = connect_worksheet(_sheetid, _cred_file)
+    data_row = data_row[0]
+    data_row[0] = get_sheet_formated_datetime(data_row[0])
     row_idx = get_empty_row_idx_24h(worksheet)
     range_ = 'G2:K'+str(row_idx-1 if row_idx != 2 else 2)
     alldata = worksheet.get(range_)
@@ -69,18 +73,24 @@ def _append_row_24h(sheet, worksheet, data_row):
     sheet.values_clear(_worksheet+'!'+range_)
     range_ = 'G2:K'+str(len(alldata)+1)
     worksheet.update(range_, alldata, value_input_option='USER_ENTERED')
+    return sheet, worksheet
 
 # Data row contains latest data to log
 # Time, temp, target, delta, on/off
-def append_row(data_row):
-    sheet, worksheet = connect_worksheet(_sheetid, _cred_file)
+def append_row_all(data_row, sheet=None, worksheet=None):
+    if sheet == None and worksheet == None:
+        sheet, worksheet = connect_worksheet(_sheetid, _cred_file)
     data_row[0][0] = get_sheet_formated_datetime(data_row[0][0])
     row_idx = get_empty_row_idx_whole(worksheet)
     range_str = get_range_str_whole(row_idx, len(data_row[0]))
     worksheet.update(range_str, data_row, value_input_option='USER_ENTERED')
-    _append_row_24h(sheet, worksheet, data_row)
+    return sheet, worksheet
 
 #def clear_all():
+
+
+
+
 #worksheet = connect_worksheet(worksheet_name, _sheetid, _cred_file)
 #sheet, worksheet = connect_worksheet(_sheetid, _cred_file)
 #_append_row_24h(sheet, worksheet, ["2021-06-30 23.56.11", 23, 23, 23, "ON"])
