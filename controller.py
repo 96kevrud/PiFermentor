@@ -4,7 +4,8 @@ from collections import deque
 import os
 
 class Controller:
-    def __init__(self, sensor, fridge, target_temp):
+    def __init__(self, sensor, fridge, target_temp, simulation_mode):
+        self.sim_mode = simulation_mode
         self.thread = threading.Thread(target=self._start_fridge_control)
         self.fridge = fridge
         self.sensor = sensor
@@ -13,7 +14,7 @@ class Controller:
         self.window = deque(maxlen=10000)
         self.thread.start()
         self.pilight_error_log_flag = False
-            
+
     def _start_fridge_control(self):
         while(True):
             temp = self.sensor.temp()
@@ -26,7 +27,7 @@ class Controller:
             else:
                 self.fridge.turn_off()
                 #If fridge has been toggled, compressor needs some rest time
-                if(wasON):
+                if(wasON and not self.sim_mode):
                     print("Turned off Fridge, Sleeping for 5min")
                     sleep(5*60)
 
@@ -50,4 +51,3 @@ class Controller:
         self.window.append(temp)
         avg = sum(self.window)/len(self.window)
         self.temp_delta = self.target_temp - avg
-

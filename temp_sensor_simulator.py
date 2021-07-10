@@ -1,17 +1,13 @@
-try:
-    from w1thermsensor import W1ThermSensor
-except Exception as e:
-    print("W1thermsensor not installed. Ok if using sim-mode")
-
 import threading
 from time import sleep
+import random
 
-class Sensor:
+class SimulatorSensor:
     def __init__(self, read_interval):
         self.thread = threading.Thread(target=self._read_temp_thread)
         self.read_interval = read_interval
-        self.sensor = W1ThermSensor()
-        self.temperature = self.sensor.get_temperature()
+        self.temperature = 10
+        random.seed(496294)
         self.thread.start()
 
     def temp(self):
@@ -19,5 +15,5 @@ class Sensor:
 
     def _read_temp_thread(self):
         while(True):
-            self.temperature = self.sensor.get_temperature()
+            self.temperature += (random.random()-0.5)*1.3
             sleep(self.read_interval)
