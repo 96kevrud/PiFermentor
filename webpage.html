@@ -1,15 +1,25 @@
 <html>
-<head>PiFermentor Control Page</head>
+<head>
+  <link rel="stylesheet" href="mystyle.css">
+</head>
 <body>
-<br>
-<br>
-<form action="" method="post">
-    <label for="temp">Target Temp:</label>
-    <input type="text" id="temp" name="temp" value="%TAR_TEMP%" size="3">
-    <input type="submit" value="Apply">
-</form>
-<p>Current temp: %CUR_TEMP%C</p>
-<p>Fridge is turned %ON_OFF_FRIDGE%</p>
+
+<div class="center-screen">
+  <text class="large-text">PiFermentor Control Page</text>
+  <form action="" method="post" class="text" id="temp">
+      <label for="temp">Target Temp:</label>
+      <input type="text" id="temp" name="temp" value="%TAR_TEMP%" size="3">
+      <input type="submit" value="Apply">
+  </form>
+  <text class="text">
+    Clear live-temp spreadsheet
+    <form action="" method="post" id="clear">
+    <input type="submit" name="clear" value="Clear" />
+    </form>
+  </text>
+  <text class="text">Current temp: %CUR_TEMP%C</text>
+  <text class="text">Fridge is turned %ON_OFF_FRIDGE%</text>
+</div>
 
 </body>
 </html>
