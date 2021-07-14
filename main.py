@@ -15,7 +15,7 @@ server_port = 8765
 switch_port = 5001
 sensor_delay = 0.5
 log_file = "log.txt"
-simulation_mode = True # Use simulated temperature readings for development
+simulation_mode = False # Use simulated temperature readings for development
 
 # Start sensor and fridge switch
 fridge = LocalSwitch("nexa_switch", id=2, unit=0, port=switch_port, simulation_mode=simulation_mode)

@@ -9,8 +9,8 @@ class SpreadsheetLogger:
         self.sensor = sensor
         self.controller = controller
         self.fridge = fridge
-        self.sleep_time_24h = 2#60*5
-        self.sleep_time_all = 10#60*60*24
+        self.sleep_time_24h = 60*5
+        self.sleep_time_all = 60*60*24
         self.thread.start()
 
     def _log(self):
