@@ -4,7 +4,7 @@ from collections import deque
 import os
 
 class Controller:
-    def __init__(self, sensor, fridge, target_temp, simulation_mode):
+    def __init__(self, sensor, fridge, target_temp, simulation_mode, name=""):
         self.sim_mode = simulation_mode
         self.thread = threading.Thread(target=self._start_fridge_control)
         self.fridge = fridge
@@ -14,6 +14,7 @@ class Controller:
         self.window = deque(maxlen=10000)
         self.thread.start()
         self.pilight_error_log_flag = False
+        self.name = name
 
     def _start_fridge_control(self):
         while(True):

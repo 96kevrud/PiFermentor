@@ -6,6 +6,7 @@ from controller import Controller
 from http.server import HTTPServer
 from temp_sensor_simulator import SimulatorSensor
 from spreadsheet_logger import SpreadsheetLogger
+import spreadsheet_connector
 from logger import Logger
 
 #Parameters
@@ -26,7 +27,8 @@ else:
     sensor = Sensor(sensor_delay)
 
 #Start fridge controller
-controller = Controller(sensor, fridge, 15, simulation_mode)
+name = spreadsheet_connector.get_beer_name()
+controller = Controller(sensor, fridge, 15, simulation_mode, name=name)
 
 #Create and start logger
 #logger = Logger(sensor, controller, fridge, log_file)

@@ -6,20 +6,33 @@
 
 <div class="center-screen">
   <text class="large-text">PiFermentor Control Page</text>
-  <form action="" method="post" class="text" id="temp">
+  <form action="" method="post" class="text" id="name-form">
+      <label for="temp">Beer name:</label>
+      <input type="text" id="name" name="name" value="%NAME_TEMP%" size="10">
+      <input type="submit" value="Apply">
+  </form>
+  <form action="" method="post" class="text" id="temp-form">
       <label for="temp">Target Temp:</label>
       <input type="text" id="temp" name="temp" value="%TAR_TEMP%" size="3">
       <input type="submit" value="Apply">
   </form>
   <text class="text">
     Clear live-temp spreadsheet
-    <form action="" method="post" id="clear">
+    <form action="" method="post" id="clear-form">
     <input type="submit" name="clear" value="Clear" />
     </form>
   </text>
+
   <text class="text">Current temp: %CUR_TEMP%C</text>
   <text class="text">Fridge is turned %ON_OFF_FRIDGE%</text>
 </div>
+
+<script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
+
 
 </body>
 </html>

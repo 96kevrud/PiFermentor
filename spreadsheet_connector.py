@@ -86,8 +86,18 @@ def append_row_all(data_row, sheet=None, worksheet=None):
     worksheet.update(range_str, data_row, value_input_option='USER_ENTERED')
     return sheet, worksheet
 
-#def clear_all():
+def clear_all():
+    sheet, worksheet = connect_worksheet(_sheetid, _cred_file)
+    sheet.values_clear(_worksheet+'!A2:E2000')
+    sheet.values_clear(_worksheet+'!G2:K1000')
 
+def change_beer_name(name):
+    sheet, worksheet = connect_worksheet(_sheetid, _cred_file)
+    worksheet.update("M12", name)
+
+def get_beer_name():
+    sheet, worksheet = connect_worksheet(_sheetid, _cred_file)
+    return worksheet.acell("M12").value
 
 
 
